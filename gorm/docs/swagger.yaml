@@ -1,0 +1,131 @@
+basePath: /
+definitions:
+  model.Profile:
+    properties:
+      bio:
+        type: string
+      id:
+        type: string
+      profilePictureURL:
+        type: string
+      userID:
+        type: string
+    type: object
+  model.User:
+    properties:
+      age:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+      profile:
+        $ref: '#/definitions/model.Profile'
+      profileId:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: RESTful API
+  title: Service for users, profile
+  version: "1.0"
+paths:
+  /users:
+    get:
+      parameters:
+      - description: filtering by age
+        in: query
+        name: age
+        type: string
+      - description: pagination per page limit
+        in: query
+        name: limit
+        type: string
+      - description: pagination offset
+        in: query
+        name: offset
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+      summary: get all users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: user request
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+      summary: add newUser
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      parameters:
+      - description: user's id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: OK
+      summary: delete user by id
+      tags:
+      - users
+    get:
+      parameters:
+      - description: user's id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: OK
+      summary: get user by id
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: user's id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: user's request
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: update user by id
+      tags:
+      - users
+swagger: "2.0"

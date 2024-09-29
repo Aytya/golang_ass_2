@@ -1,0 +1,106 @@
+basePath: /
+definitions:
+  model.User:
+    properties:
+      age:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: RESTful API
+  title: Service for users
+  version: "1.0"
+paths:
+  /users:
+    get:
+      parameters:
+      - description: filtering by age
+        in: query
+        name: age
+        type: string
+      - description: pagination per page limit
+        in: query
+        name: limit
+        type: string
+      - description: pagination offset
+        in: query
+        name: offset
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+      summary: get all users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: list of users
+        in: body
+        name: input
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.User'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+      summary: add newUser
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      parameters:
+      - description: user's id
+        in: path
+        name: id
+        type: string
+      responses:
+        "204":
+          description: No Content
+      summary: delete user by id
+      tags:
+      - users
+    put:
+      parameters:
+      - description: user's id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: user's name
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: user's age
+        in: query
+        name: age
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+      summary: update user by id
+      tags:
+      - users
+swagger: "2.0"
